@@ -37,7 +37,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         name: 1.8.2.2-ais
-        tag_name: Release 1.8.2.2-ais
+        tag_name: release-1.8.2.2-ais
         draft: false
         prerelease: false
         files: ./build/libs/xnat-web-*.war
