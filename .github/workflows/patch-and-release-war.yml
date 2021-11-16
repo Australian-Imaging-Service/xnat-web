@@ -2,6 +2,9 @@ name: Build Patched WAR File
 
 on: [push, pull_request, workflow_dispatch]
 
+env:
+  release-version: '1.8.2.2'
+
 jobs:
   build:
 
@@ -13,14 +16,14 @@ jobs:
     - name: checkout xnat-web
       uses: actions/checkout@v2
       with:
-        ref: 'releases/1.8.2.2'
+        ref: 'releases/${{ env.release-version }}'
     - name: checkout xnat-build
       uses: actions/checkout@v2
       with:
         repository: Australian-Imaging-Service/xnat-build
         path: './xnat-build' 
-    - name: hack gradle file
-      # Without this hack, the gradle build will fail with a NullPointerException
+    - name: modify gradle file
+      # Without this change, the gradle build will fail with a NullPointerException within the gradle build
       run: sed -i 's/IllegalArgumentException/IllegalArgumentException|NullPointerException/g' $GITHUB_WORKSPACE/build.gradle
     - name: patch xnat-web
       run: patch -p1 < "$GITHUB_WORKSPACE/xnat-build/patches/xnat-web_aaf.patch"
@@ -36,8 +39,8 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        name: 1.8.2.2-ais
-        tag_name: release-1.8.2.2-ais
+        name: "${{ env.release-version }}-ais"
+        tag_name: "release-${{ env.release-version }}-ais"
         draft: false
         prerelease: false
         files: ./build/libs/xnat-web-*.war
