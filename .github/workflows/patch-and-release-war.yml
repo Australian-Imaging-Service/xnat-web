@@ -18,6 +18,7 @@ jobs:
       with:
         repository: Australian-Imaging-Service/xnat-build
         path: './xnat-build' 
+        ref: 'releases/1.8.2.2'
     - name: hack gradle file
       # Without this hack, the gradle build will fail with a NullPointerException
       run: sed -i 's/IllegalArgumentException/IllegalArgumentException|NullPointerException/g' $GITHUB_WORKSPACE/build.gradle
