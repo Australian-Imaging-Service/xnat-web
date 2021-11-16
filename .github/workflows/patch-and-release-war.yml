@@ -24,8 +24,7 @@ jobs:
       # Without this hack, the gradle build will fail with a NullPointerException
       run: sed -i 's/IllegalArgumentException/IllegalArgumentException|NullPointerException/g' $GITHUB_WORKSPACE/build.gradle
     - name: patch xnat-web
-      working-directory: xnat-web
-      run: patch -p1 < $GITHUB_WORKSPACE/xnat-build/patches/xnat-web_aaf.patch
+      run: patch -p1 < "$GITHUB_WORKSPACE/xnat-build/patches/xnat-web_aaf.patch"
     - name: Set up JDK 8
       uses: actions/setup-java@v2
       with:
